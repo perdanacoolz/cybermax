@@ -1,4 +1,4 @@
-import Product from "../models/DocumentModel.js";
+import Document from "../models/DocumentModel.js";
 import User from "../models/UserModel.js";
 import {Op} from "sequelize";
 
@@ -6,16 +6,16 @@ export const getDocuments = async (req, res) =>{
     try {
         let response;
         if(req.role === "admin"){
-            response = await Product.findAll({
-                attributes:['uuid','name','price'],
+            response = await Document.findAll({
+                attributes:['uuid','description','documentType','fileurl','version','status'],
                 include:[{
                     model: User,
                     attributes:['name','email']
                 }]
             });
         }else{
-            response = await Product.findAll({
-                attributes:['uuid','name','price'],
+            response = await Document.findAll({
+                attributes:['uuid','description','documentType','fileurl','version','status'],
                 where:{
                     userId: req.userId
                 },
@@ -33,7 +33,7 @@ export const getDocuments = async (req, res) =>{
 
 export const getDocumentById = async(req, res) =>{
     try {
-        const product = await Product.findOne({
+        const product = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
@@ -41,8 +41,8 @@ export const getDocumentById = async(req, res) =>{
         if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
         let response;
         if(req.role === "admin"){
-            response = await Product.findOne({
-                attributes:['uuid','name','price'],
+            response = await Document.findOne({
+                attributes:['uuid','description','documentType','fileurl','version','status'],
                 where:{
                     id: product.id
                 },
@@ -52,8 +52,8 @@ export const getDocumentById = async(req, res) =>{
                 }]
             });
         }else{
-            response = await Product.findOne({
-                attributes:['uuid','name','price'],
+            response = await Document.findOne({
+                attributes:['uuid','description','documentType','fileurl','version','status'],
                 where:{
                     [Op.and]:[{id: product.id}, {userId: req.userId}]
                 },
@@ -70,14 +70,19 @@ export const getDocumentById = async(req, res) =>{
 }
 
 export const createDocument = async(req, res) =>{
-    const {name, price} = req.body;
+    const {description, price,documentType, fileurl,version, status} = req.body;
     try {
         await Product.create({
-            name: name,
+            description: description,
             price: price,
+             documentType: documentType,
+            fileurl: fileurl,
+             version: version,
+               status: status,
+            
             userId: req.userId
         });
-        res.status(201).json({msg: "Product Created Successfuly"});
+        res.status(201).json({msg: "document Created Successfuly"});
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
@@ -85,44 +90,44 @@ export const createDocument = async(req, res) =>{
 
 export const updateDocument = async(req, res) =>{
     try {
-        const product = await Product.findOne({
+        const product = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
         });
         if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
-        const {name, price} = req.body;
+        const {description, price,documentType, fileurl,version, status} = req.body;
         if(req.role === "admin"){
-            await Product.update({name, price},{
+            await Document.update({description, price,documentType, fileurl,version, status},{
                 where:{
                     id: product.id
                 }
             });
         }else{
             if(req.userId !== product.userId) return res.status(403).json({msg: "Akses terlarang"});
-            await Product.update({name, price},{
+            await Document.update({description, price,documentType, fileurl,version, status},{
                 where:{
                     [Op.and]:[{id: product.id}, {userId: req.userId}]
                 }
             });
         }
-        res.status(200).json({msg: "Product updated successfuly"});
+        res.status(200).json({msg: "document updated successfuly"});
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
 }
 
-export const deleteProduct = async(req, res) =>{
+export const deleteDocument = async(req, res) =>{
     try {
-        const product = await Product.findOne({
+        const product = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
         });
         if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
-        const {name, price} = req.body;
+        const {description, price,documentType, fileurl,version, status} = req.body;
         if(req.role === "admin"){
-            await Product.destroy({
+            await Document.destroy({
                 where:{
                     id: product.id
                 }
@@ -135,7 +140,7 @@ export const deleteProduct = async(req, res) =>{
                 }
             });
         }
-        res.status(200).json({msg: "Product deleted successfuly"});
+        res.status(200).json({msg: "document deleted successfuly"});
     } catch (error) {
         res.status(500).json({msg: error.message});
     }

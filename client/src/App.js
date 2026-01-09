@@ -8,6 +8,10 @@ import EditUser from "./pages/EditUser";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 
+import Documents from "./pages/Document";
+import AddDocument from "./pages/AddDocument";
+import EditDocument from "./pages/EditDocument";
+
 function App() {
   return (
     <div>
@@ -21,6 +25,10 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/add" element={<AddProduct />} />
           <Route path="/products/edit/:id" element={<EditProduct />} />
+
+          <Route path="/documents" element={<Document />} />
+          <Route path="/documents/add" element={<AddDocument />} />
+          <Route path="/documents/edit/:id" element={<EditDocument />} />
         </Routes>
       </BrowserRouter>
     </div>
