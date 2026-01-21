@@ -4,7 +4,7 @@ import Users from "./UserModel.js";
 
 const {DataTypes} = Sequelize;
 
-const Document = db.define('dokumen',{
+const Document = db.define('documen',{
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,

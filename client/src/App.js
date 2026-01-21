@@ -8,7 +8,7 @@ import EditUser from "./pages/EditUser";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 
-//import Documents from "./pages/Documents"; 
+import Documents from "./pages/Documents"; 
 import AddDocument from "./pages/AddDocument";
 import EditDocument from "./pages/EditDocument";
 
@@ -26,9 +26,9 @@ function App() {
           <Route path="/products/add" element={<AddProduct />} />
           <Route path="/products/edit/:id" element={<EditProduct />} />
 
-          <Route path="/documents" element={<Documents />} />
+        <Route path="/documents" element={<Documents />} />
           <Route path="/documents/add" element={<AddDocument />} />
-          <Route path="/documents/edit/:id" element={<EditDocument />} />
+          <Route path="/documents/edit/:id" element={<EditDocument />} /> 
         </Routes>
       </BrowserRouter>
     </div>

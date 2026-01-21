@@ -37,11 +37,11 @@ const [status, setStatus] = useState("");
     e.preventDefault();
     try {
       await axios.patch(`http://localhost:5000/documents/${id}`, {
-        name: name,
-        price: price,
-        name: name,
-        price: price,
-        price: price,
+        description: description,
+        documentType: documentType,
+        fileurl: fileurl,
+        version: version,
+        status: status,
       });
       navigate("/documents");
     } catch (error) {
@@ -60,27 +60,68 @@ const [status, setStatus] = useState("");
           <div className="content">
             <form onSubmit={updateDocument}>
               <p className="has-text-centered">{msg}</p>
+			  
               <div className="field">
-                <label className="label">Name</label>
+                <label className="label">desc</label>
                 <div className="control">
                   <input
                     type="text"
                     className="input"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Product Name"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Product description"
                   />
                 </div>
               </div>
               <div className="field">
-                <label className="label">Price</label>
+                <label className="label">documentType</label>
                 <div className="control">
                   <input
                     type="text"
                     className="input"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="Price"
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    placeholder="documentType"
+                  />
+                </div>
+              </div>
+			  
+			 
+			    <div className="field">
+                <label className="label">fileurl</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    className="input"
+                    value={fileurl}
+                    onChange={(e) => setFileurl(e.target.value)}
+                    placeholder="fileurl"
+                  />
+                </div>
+              </div>
+			  
+			    <div className="field">
+                <label className="label">version</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    className="input"
+                    value={version}
+                    onChange={(e) => setVersion(e.target.value)}
+                    placeholder="version"
+                  />
+                </div>
+              </div>
+			  
+			   <div className="field">
+                <label className="label">status</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    className="input"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    placeholder="status"
                   />
                 </div>
               </div>

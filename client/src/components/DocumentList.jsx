@@ -10,7 +10,7 @@ const DocumentList = () => {
   }, []);
 
   const getProducts = async () => {
-    const response = await axios.get("http://localhost:5000/products");
+    const response = await axios.get("http://localhost:5000/documents");
     setProducts(response.data);
   };
 
@@ -43,12 +43,16 @@ const DocumentList = () => {
           {products.map((product, index) => (
             <tr key={product.uuid}>
               <td>{index + 1}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.user.name}</td>
+              <td>{product.description}</td>
+              <td>{product.documentType}</td>
+              <td>{product.fileurl}</td>
+			   <td>{product.version}</td>
+			    <td>{product.status}</td>
+			    <td>{product.user.name}</td>
+				
               <td>
                 <Link
-                  to={`/products/edit/${product.uuid}`}
+                  to={`/documents/edit/${product.uuid}`}
                   className="button is-small is-info"
                 >
                   Edit

@@ -33,18 +33,18 @@ export const getDocuments = async (req, res) =>{
 
 export const getDocumentById = async(req, res) =>{
     try {
-        const product = await Document.findOne({
+        const document = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
         });
-        if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
+        if(!document) return res.status(404).json({msg: "Data tidak ditemukan"});
         let response;
         if(req.role === "admin"){
             response = await Document.findOne({
                 attributes:['uuid','description','documentType','fileurl','version','status'],
                 where:{
-                    id: product.id
+                    id: document.id
                 },
                 include:[{
                     model: User,
@@ -55,7 +55,7 @@ export const getDocumentById = async(req, res) =>{
             response = await Document.findOne({
                 attributes:['uuid','description','documentType','fileurl','version','status'],
                 where:{
-                    [Op.and]:[{id: product.id}, {userId: req.userId}]
+                    [Op.and]:[{id: document.id}, {userId: req.userId}]
                 },
                 include:[{
                     model: User,
@@ -70,16 +70,14 @@ export const getDocumentById = async(req, res) =>{
 }
 
 export const createDocument = async(req, res) =>{
-    const {description, price,documentType, fileurl,version, status} = req.body;
+    const {description,documentType, fileurl,version, status} = req.body;
     try {
-        await Product.create({
+        await Document.create({
             description: description,
-            price: price,
              documentType: documentType,
             fileurl: fileurl,
              version: version,
                status: status,
-            
             userId: req.userId
         });
         res.status(201).json({msg: "document Created Successfuly"});
@@ -90,24 +88,24 @@ export const createDocument = async(req, res) =>{
 
 export const updateDocument = async(req, res) =>{
     try {
-        const product = await Document.findOne({
+        const document = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
         });
-        if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
-        const {description, price,documentType, fileurl,version, status} = req.body;
+        if(!document) return res.status(404).json({msg: "Data tidak ditemukan"});
+        const {description,documentType, fileurl,version, status} = req.body;
         if(req.role === "admin"){
-            await Document.update({description, price,documentType, fileurl,version, status},{
+            await Document.update({description,documentType, fileurl,version, status},{
                 where:{
-                    id: product.id
+                    id: document.id
                 }
             });
         }else{
-            if(req.userId !== product.userId) return res.status(403).json({msg: "Akses terlarang"});
-            await Document.update({description, price,documentType, fileurl,version, status},{
+            if(req.userId !== document.userId) return res.status(403).json({msg: "Akses terlarang"});
+            await Document.update({description,documentType, fileurl,version, status},{
                 where:{
-                    [Op.and]:[{id: product.id}, {userId: req.userId}]
+                    [Op.and]:[{id: document.id}, {userId: req.userId}]
                 }
             });
         }
@@ -119,24 +117,24 @@ export const updateDocument = async(req, res) =>{
 
 export const deleteDocument = async(req, res) =>{
     try {
-        const product = await Document.findOne({
+        const document = await Document.findOne({
             where:{
                 uuid: req.params.id
             }
         });
-        if(!product) return res.status(404).json({msg: "Data tidak ditemukan"});
+        if(!document) return res.status(404).json({msg: "Data tidak ditemukan"});
         const {description, price,documentType, fileurl,version, status} = req.body;
         if(req.role === "admin"){
             await Document.destroy({
                 where:{
-                    id: product.id
+                    id: document.id
                 }
             });
         }else{
-            if(req.userId !== product.userId) return res.status(403).json({msg: "Akses terlarang"});
+            if(req.userId !== document.userId) return res.status(403).json({msg: "Akses terlarang"});
             await Product.destroy({
                 where:{
-                    [Op.and]:[{id: product.id}, {userId: req.userId}]
+                    [Op.and]:[{id: document.id}, {userId: req.userId}]
                 }
             });
         }

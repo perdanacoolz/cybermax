@@ -8,20 +8,18 @@ const FormAddDocument = () => {
   const [fileurl, setFileurl] = useState("");
    const [version, setVersion] = useState("");
   const [status, setStatus] = useState("");
- 
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
   const saveDocumen = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/document", {
+      await axios.post("http://localhost:5000/documents", {
         description: description,
         documentType: documentType,
          fileurl: fileurl,
         version: version,
-         status: status,
-         
-      });
+         status: status});
       navigate("/documents");
     } catch (error) {
       if (error.response) {

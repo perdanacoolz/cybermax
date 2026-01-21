@@ -32,7 +32,7 @@ const Sidebar = () => {
           </li>
 
             <li>
-            <NavLink to={"/document"}>
+            <NavLink to={"/documents"}>
               <IoPricetag /> document
             </NavLink>
           </li>
